@@ -1,0 +1,18 @@
+[alias]
+    co = checkout
+    br = branch
+    unstage = !git reset HEAD --
+    smi = !git submodule update --init --recursive --progress
+    sma = !git submodule add
+    ls = !git log --pretty=oneline
+    s = status
+
+    # push the current branch to remote
+    rp = !git branch --show-current | xargs git push -u origin
+
+    # might not work as expected
+    bclean = !git br --merged ${1-main} | grep -v ${1-main}$ | xargs git br -d 
+
+    # compare branches using delta and fzf
+    cbr = !git branch --sort=-committerdate  | fzf --header \"Checkout Recent Branch\" --preview \"git diff --color=always {1} | delta \" | xargs git checkout
+    compare = !git branch --sort=-committerdate  | fzf --header \"Checkout Recent Branch\" --preview \"git diff --color=always {1} | delta \"
